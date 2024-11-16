@@ -1,0 +1,19 @@
+{
+  "name": "ticket-sale-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@truffle/hdwallet-provider": "^2.1.15",
+    "ganache-cli": "^6.12.2",
+    "mocha": "^10.8.2",
+    "solc": "^0.8.17",
+    "web3": "^4.15.0"
+  },
+  "description": ""
+}
