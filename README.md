@@ -1,199 +1,172 @@
-Here's an improved README that is clear, visually structured, and covers all details from the assignment prompt, making it easy for anyone to run and understand the project.
-
----
-
-# 🎟️ Ethereum Ticket Sale Smart Contract
+# 🎫 Ethereum Ticket Sale Smart Contract
 
 ## Overview
-This project is a **decentralized ticket sale smart contract** for securely purchasing, swapping, and reselling tickets on the Ethereum blockchain. It automates the entire ticket lifecycle and applies a 10% service fee on resales, which is credited to the manager.
+A comprehensive smart contract implementation for managing event ticket sales on the Ethereum blockchain. This project enables direct ticket purchases, ticket swapping, and resale functionality with automated service fee handling.
 
----
-
-## 🔧 Smart Contract Specifications
-- **Network**: Ethereum (Testing on Ganache)
-- **Solidity Version**: ^0.8.17
-- **Testing Framework**: Mocha, Ganache CLI
-
----
-
-## 🚀 Features
-
-### 🎟️ Primary Market
-- **Direct Ticket Purchase**: Allows one ticket per address.
-- **Ownership Registration**: Automatically recorded upon purchase.
-- **Controlled Price & Supply**: Managed by the contract owner.
-
-### 🔄 Secondary Market
-- **Peer-to-Peer Swapping**: Enables users to swap tickets directly through the contract.
-- **Ticket Resale with Service Fee**: Includes a 10% service fee on ticket resales.
-- **Automatic Fee Distribution**: The fee goes directly to the manager.
-- **Resale Price Validation**: Verifies correct pricing on resale transactions.
-
-### 👤 Ownership Management
-- **Ownership Verification**: Real-time tracking of ticket ownership.
-- **Secure Transfers**: Ensures safe ticket swaps and resales.
-
----
-
-## 📜 Core Contract Functions
-
-### Contract Initialization
-- **Constructor**
-    ```solidity
-    constructor(uint numTickets, uint price)
-    ```
-    Initializes the ticket sale with a set quantity and price. The deployer is the manager.
-
-### Primary Functions
-1. **Buy Ticket**
-    ```solidity
-    function buyTicket(uint ticketId) payable
-    ```
-    Purchases a ticket by ID, updating the owner if the payment and ticket availability are valid.
-
-2. **Get Ticket Information**
-    ```solidity
-    function getTicketOf(address person) public view returns (uint)
-    ```
-    Retrieves the ticket ID owned by a specific address.
-
-### Swapping and Resale
-1. **Offer Swap**
-    ```solidity
-    function offerSwap(uint ticketId)
-    ```
-    Submits a swap offer for the sender’s ticket with a partner's ticket.
-
-2. **Accept Swap**
-    ```solidity
-    function acceptSwap(uint ticketId)
-    ```
-    Accepts a swap offer if both parties own tickets and a valid offer exists.
-
-3. **Resale Ticket**
-    ```solidity
-    function resaleTicket(uint price)
-    ```
-    Lists the sender’s ticket for resale at a specified price.
-
-4. **Accept Resale**
-    ```solidity
-    function acceptResale(uint ticketId) payable
-    ```
-    Completes a resale with a 10% service fee for the manager. The new buyer becomes the ticket owner.
-
-5. **Check Resale Tickets**
-    ```solidity
-    function checkResale() public view returns (uint[] memory)
-    ```
-    Displays a list of available resale tickets with their prices.
-
----
-
-## 📂 Project Structure
-
-```
-ticket-sale-project/
-├── TicketSale.sol          # Main smart contract
-├── compile.js              # Compilation script
-├── test/
-│   └── TicketSale.test.js  # Test suite
-├── package.json            # Project dependencies
-└── .gitignore              # Git configuration
-```
-
----
-
-## ✅ Installation & Setup
-
-### Prerequisites
-- **Node.js and npm**
-- **Project Dependencies**:
-    ```bash
-    npm install solc@0.8.17 web3@1.10.0 ganache-cli@6.12.2 mocha@10.2.0 @truffle/hdwallet-provider@2.1.15
-    ```
-
-### Project Setup
-1. **Clone Repository**:
-    ```bash
-    git clone <repository-url>
-    cd ticket-sale-project
-    ```
-2. **Install Project Dependencies**:
-    ```bash
-    npm install
-    ```
-3. **Compile Contract**:
-    ```bash
-    npm run compile
-    ```
-4. **Run Tests**:
-    ```bash
-    npm test
-    ```
-
----
-
-## ✅ Test Results
-After running `npm test`, you should see:
-
+## Test Results
 ```bash
 TicketSale Contract
-✓ Deploys successfully
-✓ Allows ticket purchase
-✓ Prevents duplicate ticket purchases
-✓ Supports ticket swapping
-✓ Enables ticket resale with service fee
-✓ Matches example scenario requirements
+Deploying contract with account: 0x0F3bBc8a8caB741bCC224E9F43f34Aa7Da563219
+Account balance: 100000000000000000000
+Contract deployed to: 0xD797b411745b60b8F22C0eD496434986737571a9
+    ✔ deploys a contract
+Deploying contract with account: 0x0F3bBc8a8caB741bCC224E9F43f34Aa7Da563219
+Account balance: 99998323930000000000
+Contract deployed to: 0x7390D00F4B9FE89d20984f6431896DD9777eC30e
+Buyer initial balance: 100000000000000000000
+    ✔ allows one account to buy a ticket (41ms)
+Deploying contract with account: 0x0F3bBc8a8caB741bCC224E9F43f34Aa7Da563219
+Account balance: 99996647860000000000
+Contract deployed to: 0x6918B6D1B12C7EC6602C8E39aA4563bD6a3134ba
+    ✔ prevents buying same ticket twice (42ms)
+Deploying contract with account: 0x0F3bBc8a8caB741bCC224E9F43f34Aa7Da563219
+Account balance: 99994971790000000000
+Contract deployed to: 0x6b7d383754e506C251C7F591AC69c34BE301DE11
+    ✔ allows ticket swap between two users (109ms)
+Deploying contract with account: 0x0F3bBc8a8caB741bCC224E9F43f34Aa7Da563219
+Account balance: 99993295720000000000
+Contract deployed to: 0xF78857F602AE51637d4cB80d3Ffd952Ab76fDF41
+    ✔ allows resale of tickets (86ms)
+Deploying contract with account: 0x0F3bBc8a8caB741bCC224E9F43f34Aa7Da563219
+Account balance: 99993119650000000000
+Contract deployed to: 0xFABbA1C6fAB4BAb270550765dC02B57C4dFc4f73
+    ✔ matches the example scenario (177ms)
 
-6 tests passed (in ~467ms)
+6 passing (707ms)
 ```
 
+## Project Structure
+```
+ticket-sale-project/
+├── TicketSale.sol         # Main smart contract
+├── compile.js             # Compilation script
+├── test/
+│   └── TicketSale.test.js # Test suite
+├── package.json          # Project dependencies
+└── .gitignore           # Git configuration
+```
+
+## Implementation Details
+
+### Contract Functions
+
+1. **Constructor**
+```solidity
+constructor(uint numTickets, uint price)
+```
+- Creates ticket sale with specified number and price
+- Sets deployer as manager
+
+2. **Buy Ticket**
+```solidity
+function buyTicket(uint ticketId) payable
+```
+- Purchases ticket by ID
+- Requires exact payment
+- One ticket per address
+
+3. **Get Ticket Information**
+```solidity
+function getTicketOf(address person) public view returns (uint)
+```
+- Returns ticket ID owned by address
+- Returns 0 if no ticket owned
+
+4. **Swap Functions**
+```solidity
+function offerSwap(uint ticketId)
+function acceptSwap(uint ticketId)
+```
+- Create and accept swap offers
+- Atomic swap execution
+
+5. **Resale Functions**
+```solidity
+function resaleTicket(uint price)
+function acceptResale(uint ticketId) payable
+```
+- List tickets for resale
+- Process 10% service fee
+- Transfer ownership
+
+6. **Check Resale**
+```solidity
+function checkResale() public view returns (uint[] memory)
+```
+- View available resale tickets
+
+## Test Coverage
+
+### 1. Contract Deployment Test ✅
+- Verifies successful deployment
+- Checks contract address
+
+### 2. Ticket Purchase Test ✅
+- Tests direct buying
+- Verifies ownership
+- Checks payment handling
+
+### 3. Double Purchase Prevention Test ✅
+- Prevents same ticket purchase
+- Validates ticket availability
+
+### 4. Ticket Swap Test ✅
+- Tests ticket swapping
+- Verifies ownership transfer
+- Checks swap completion
+
+### 5. Resale Test ✅
+- Tests resale listing
+- Validates service fee
+- Confirms ownership transfer
+
+### 6. Example Scenario Test ✅
+- Tests complete workflow
+- Matches Sziget Festival example
+- Verifies all operations
+
+## Setup Instructions
+
+1. **Install Dependencies**
+```bash
+npm install
+```
+
+2. **Compile Contract**
+```bash
+npm run compile
+```
+
+3. **Run Tests**
+```bash
+npm test
+```
+
+## Security Features
+- Ownership verification
+- Payment validation
+- One ticket per address
+- Atomic operations
+- Service fee automation
+
+## Gas Optimization
+| Operation | Gas Cost |
+|-----------|----------|
+| Deployment | ~838,035 |
+| Purchase | ~100,000 |
+| Swap | ~130,000 |
+| Resale | ~170,000 |
+
+## Support
+For assistance:
+1. Check documentation
+2. Review test cases
+3. Run tests locally
+4. Open an issue
+
+## License
+ISC License
+
 ---
-
-## 📜 Example Usage
-1. **Deploy Contract**: Set the number of tickets and price.
-2. **Purchase Ticket**: Execute `buyTicket` with payment.
-3. **Swap Tickets**: Submit and accept swap offers.
-4. **Resale Process**: List and accept resale offers.
-
----
-
-## ⚠️ Error Handling
-
-### Common Issues
-- **Invalid Ticket ID**: Ticket ID must be within a valid range.
-- **Incorrect Payment**: Ensure the payment amount matches the ticket price.
-- **Unauthorized Access**: Verify ownership and permissions.
-
----
-
-## ⛽ Gas Optimization
-
-| Operation          | Gas Cost  |
-|--------------------|-----------|
-| Contract Deployment | ~838,035 |
-| Ticket Purchase     | ~100,000 |
-| Ticket Swap         | ~130,000 |
-| Ticket Resale       | ~170,000 |
-
----
-
-## 🔒 Security & Access Control
-- **Manager-only Functions**: Certain operations are restricted to the contract owner.
-- **Ownership Verification**: Confirms ticket ownership before any transfers or swaps.
-- **Payment Validation**: Ensures the correct amount is transferred.
-
----
-
-## 🛠️ Development Tools
-- **Solidity**: Smart Contract Language
-- **Web3.js**: Ethereum Interaction Library
-- **Ganache CLI**: Local Blockchain Emulator
-- **Mocha**: Testing Framework
-
----
-
-## 🎮 License
-This project is licensed under the ISC License.
+Last Updated: February 2024
 

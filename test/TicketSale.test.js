@@ -133,6 +133,56 @@ describe('TicketSale Contract', () => {
         assert.equal(newOwner, '1');
     });
 
+    it('shows available resale tickets correctly', async () => {
+        // First user buys ticket
+        await ticketSale.methods.buyTicket(1).send({
+            from: accounts[1],
+            value: TICKET_PRICE,
+            gas: '3000000'
+        });
+
+        // Second user buys another ticket
+        await ticketSale.methods.buyTicket(2).send({
+            from: accounts[2],
+            value: TICKET_PRICE,
+            gas: '3000000'
+        });
+
+        // First user lists ticket for resale
+        const resalePrice = web3.utils.toWei('0.015', 'ether');
+        await ticketSale.methods.resaleTicket(resalePrice).send({
+            from: accounts[1],
+            gas: '3000000'
+        });
+
+        // Second user lists ticket for resale
+        const resalePrice2 = web3.utils.toWei('0.02', 'ether');
+        await ticketSale.methods.resaleTicket(resalePrice2).send({
+            from: accounts[2],
+            gas: '3000000'
+        });
+
+        // Check resale list
+        const resaleList = await ticketSale.methods.checkResale().call();
+        
+        // Verify resale list
+        assert.equal(resaleList.length, 2, "Should have 2 tickets in resale");
+        assert.equal(resaleList[0], '1', "First resale ticket should be #1");
+        assert.equal(resaleList[1], '2', "Second resale ticket should be #2");
+
+        // Third user buys a resale ticket
+        await ticketSale.methods.acceptResale(1).send({
+            from: accounts[3],
+            value: resalePrice,
+            gas: '3000000'
+        });
+
+        // Check updated resale list
+        const updatedResaleList = await ticketSale.methods.checkResale().call();
+        assert.equal(updatedResaleList.length, 1, "Should have 1 ticket in resale after purchase");
+        assert.equal(updatedResaleList[0], '2', "Remaining resale ticket should be #2");
+    });
+
     it('matches the example scenario', async () => {
         // Create contract with 100,000 tickets at 10,000 wei
         const EXAMPLE_PRICE = '10000';
